@@ -145,4 +145,19 @@ fs.readFile('./input/chat.txt', 'utf8', function(err, data) {
             }
         }
     }
+    // Write emoji list to file
+    fs.writeFile('./input/emoji.txt', emoji_list.join('\n'), function(err) {
+
+        // If error
+        if (err) console.log(err);
+
+        // Status message
+        console.log('Emoji list written to file');
+
+        // Close readline interface
+        rl.close();
+
+        // Exit
+        process.exit();
+    });
 });
