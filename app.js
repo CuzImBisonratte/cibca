@@ -26,3 +26,7 @@ var removes = [
 ];
 var skip_line = false;
 
+// 
+// Functions
+//
+
