@@ -48,6 +48,9 @@ fs.readFile('./input/chat.txt', 'utf8', function(err, data) {
     // If error
     if (err) console.log(err);
 
+    // Remove all unicode 200E characters
+    data = data.replace(/[\u200E]/g, '');
+
     // Read line by line
     chat = data.split('\n');
 
