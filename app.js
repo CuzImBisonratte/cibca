@@ -145,6 +145,11 @@ fs.readFile('./input/chat.txt', 'utf8', function(err, data) {
             }
         }
     }
+    // Sort emoji list
+    emoji_list.sort(function(a, b) {
+        return b[1] - a[1];
+    });
+
     // Write emoji list to file
     fs.writeFile('./input/emoji.txt', emoji_list.join('\n'), function(err) {
 
