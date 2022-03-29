@@ -26,6 +26,7 @@ var removes = [
 ];
 var skip_line = false;
 var regex_line_begin = /\[\d{2}\.\d{2}\.\d{2}, \d{2}:\d{2}:\d{2}\]/;
+var emoji_list = [];
 
 // 
 // Functions
@@ -109,6 +110,39 @@ fs.readFile('./input/chat.txt', 'utf8', function(err, data) {
 
             // Print status message
             console.log("Checking message " + (i + 1) + " of " + chat_lines);
+
+            // Check if message contains any emoji
+            if (line.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g)) {
+
+                // Get the emoji
+                var emoji = line.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g);
+
+                // Loop through emoji
+                for (var j = 0; j < emoji.length; j++) {
+
+                    // Check if emoji is in the list
+                    var found = false;
+                    for (var k = 0; k < emoji_list.length; k++) {
+
+                        // If emoji is in the list
+                        if (emoji_list[k][0] == emoji[j]) {
+
+                            // Increase the count
+                            emoji_list[k][1]++;
+
+                            // Set found to true
+                            found = true;
+                        }
+                    }
+
+                    // If emoji is not in the list
+                    if (!found) {
+
+                        // Add emoji to list
+                        emoji_list.push([emoji[j], 1]);
+                    }
+                }
+            }
         }
     }
 });
