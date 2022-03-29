@@ -30,3 +30,28 @@ var skip_line = false;
 // Functions
 //
 
+
+// 
+// Main
+//
+
+// Create readline interface
+rl = readline.createInterface({
+    input: process.stdin,
+    output: process.stdout
+});
+
+// Read file
+fs.readFile('./input/chat.txt', 'utf8', function(err, data) {
+
+    // If error
+    if (err) console.log(err);
+
+    // Read line by line
+    chat = data.split('\n');
+
+    // Remove last line
+    chat.pop();
+
+
+});
