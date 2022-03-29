@@ -53,5 +53,34 @@ fs.readFile('./input/chat.txt', 'utf8', function(err, data) {
     // Remove last line
     chat.pop();
 
+    // Get number of lines
+    var chat_lines = chat.length;
 
+    // Loop through lines
+    for (var i = 0; i < chat_lines; i++) {
+
+        // Turn off skip line
+        skip_line = false;
+
+        // Get line 
+        var line = chat[i];
+
+        // Check if line contains one of the strings in the array "removes"
+        for (var j = 0; j < removes.length; j++) {
+
+            // If line contains string
+            if (line.indexOf(removes[j]) > -1) {
+
+                // Skip line
+                skip_line = true;
+            }
+        }
+
+        // If line is not skipped
+        if (!skip_line) {
+
+            // Print status message
+            console.log("Checking message " + (i + 1) + " of " + chat_lines);
+        }
+    }
 });
