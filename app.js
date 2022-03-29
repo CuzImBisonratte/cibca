@@ -63,6 +63,30 @@ fs.readFile('./input/chat.txt', 'utf8', function(err, data) {
     // Loop through lines
     for (var i = 0; i < chat_lines; i++) {
 
+        // Check if line matches regex
+        if (!regex_line_begin.test(chat[i])) {
+
+            // Add the line to the previous line
+            chat[i - 1] += ' ' + chat[i];
+
+            // Remove the line
+            chat.splice(i, 1);
+
+            // Decrease the number of lines
+            chat_lines--;
+
+            // Status message
+            console.log('Line ' + i + ' removed');
+
+            // Decrease the index
+            i--;
+
+        }
+    }
+
+    // Loop through lines
+    for (var i = 0; i < chat_lines; i++) {
+
         // Turn off skip line
         skip_line = false;
 
