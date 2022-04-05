@@ -162,7 +162,7 @@ fs.readFile('./input/chat.txt', 'utf8', function(err, data) {
         // Close readline interface
         rl.close();
 
-        // Exit
+        // Close the process
         process.exit();
     });
 });
