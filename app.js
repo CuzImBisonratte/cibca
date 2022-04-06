@@ -150,6 +150,9 @@ fs.readFile('./input/chat.txt', 'utf8', function(err, data) {
         return b[1] - a[1];
     });
 
+    // Print emoji list
+    console.log(emoji_list);
+
     // Write emoji list to file
     fs.writeFile('./input/emoji.txt', emoji_list.join('\n'), function(err) {
 
