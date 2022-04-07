@@ -27,6 +27,8 @@ var removes = [
 var skip_line = false;
 var regex_line_begin = /\[\d{2}\.\d{2}\.\d{2}, \d{2}:\d{2}:\d{2}\]/;
 var emoji_list = [];
+var current_line = "";
+var number_of_lines = 0;
 
 // 
 // Functions
@@ -52,120 +54,63 @@ fs.readFile('./input/chat.txt', 'utf8', function(err, data) {
     // Remove all unicode 200E characters
     data = data.replace(/[\u200E]/g, '');
 
-    // Read line by line
+    // Split data into lines
     chat = data.split('\n');
 
-    // Remove last line
-    chat.pop();
-
-    // Get number of lines
-    var chat_lines = chat.length;
+    // Get the number of lines
+    number_of_lines = chat.length;
 
     // Loop through lines
-    for (var i = 0; i < chat_lines; i++) {
+    for (var i = 0; i < number_of_lines; i++) {
 
-        // Check if line matches regex
-        if (!regex_line_begin.test(chat[i])) {
+        // Get current line
+        current_line = chat[i];
 
-            // Add the line to the previous line
-            chat[i - 1] += ' ' + chat[i];
-
-            // Remove the line
-            chat.splice(i, 1);
-
-            // Decrease the number of lines
-            chat_lines--;
-
-            // Status message
-            console.log('Line ' + i + ' removed');
-
-            // Decrease the index
-            i--;
-
-        }
-    }
-
-    // Loop through lines
-    for (var i = 0; i < chat_lines; i++) {
-
-        // Turn off skip line
-        skip_line = false;
-
-        // Get line 
-        var line = chat[i];
-
-        // Check if line contains one of the strings in the array "removes"
+        // Check if line contains one of the remove strings
         for (var j = 0; j < removes.length; j++) {
 
-            // If line contains string
-            if (line.indexOf(removes[j]) > -1) {
+            // If line contains remove string
+            if (current_line.indexOf(removes[j]) > -1) {
 
-                // Skip line
+                // Remove line
+                chat.splice(i, 1);
+
+                // Skip next line
                 skip_line = true;
-            }
-        }
 
-        // If line is not skipped
-        if (!skip_line) {
-
-            // Print status message
-            console.log("Checking message " + (i + 1) + " of " + chat_lines);
-
-            // Check if message contains any emoji
-            if (line.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g)) {
-
-                // Get the emoji
-                var emoji = line.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g);
-
-                // Loop through emoji
-                for (var j = 0; j < emoji.length; j++) {
-
-                    // Check if emoji is in the list
-                    var found = false;
-                    for (var k = 0; k < emoji_list.length; k++) {
-
-                        // If emoji is in the list
-                        if (emoji_list[k][0] == emoji[j]) {
-
-                            // Increase the count
-                            emoji_list[k][1]++;
-
-                            // Set found to true
-                            found = true;
-                        }
-                    }
-
-                    // If emoji is not in the list
-                    if (!found) {
-
-                        // Add emoji to list
-                        emoji_list.push([emoji[j], 1]);
-                    }
-                }
+                // Break loop
+                break;
             }
         }
     }
-    // Sort emoji list
-    emoji_list.sort(function(a, b) {
-        return b[1] - a[1];
-    });
 
-    // Print emoji list
-    console.log(emoji_list);
+    // Get the number of lines
+    number_of_lines = chat.length;
 
-    // Write emoji list to file
-    fs.writeFile('./input/emoji.txt', emoji_list.join('\n'), function(err) {
+    // Loop through lines
+    for (var i = 0; i < number_of_lines; i++) {
+
+        // Check if the next line starts with the regex stored in "regex_line_begin"
+        if (chat[i + 1].match(regex_line_begin)) {
+
+            // Add the next line to the current line
+            current_line += chat[i + 1];
+
+            // Remove the next line
+            chat.splice(i + 1, 1);
+
+            // Decrease the number of lines
+            number_of_lines--;
+        }
+    }
+
+    // Write the new file
+    fs.writeFile('./output/chat.txt', chat.join('\n'), function(err) {
 
         // If error
         if (err) console.log(err);
 
-        // Status message
-        console.log('Emoji list written to file');
-
         // Close readline interface
         rl.close();
-
-        // Close the process
-        process.exit();
     });
 });
