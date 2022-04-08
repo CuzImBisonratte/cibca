@@ -18,7 +18,10 @@ rl.question("Was möchtest du machen?\n1 - Emojinutzung pro Person analysieren\n
             var appjs_childprocess = exec('node app.js --input ./files/input.txt');
             appjs_childprocess.stdout.pipe(process.stdout)
             appjs_childprocess.on('exit', function() {
-                process.exit()
+                exec('start "" "./files/emoji_list.txt"');
+                setTimeout(function() {
+                    process.exit();
+                }, 1000);
             })
             break;
         case "2":
