@@ -2,7 +2,6 @@
 // Get modules
 // 
 fs = require('fs');
-readline = require('readline');
 
 // 
 // Variables
@@ -59,12 +58,6 @@ if (process.argv.indexOf('--input') > -1) {
     input_file = "./files/input.txt";
 
 }
-
-// Create readline interface
-rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
 
 // Read file
 fs.readFile(input_file, 'utf8', function(err, data) {
@@ -194,9 +187,6 @@ fs.readFile(input_file, 'utf8', function(err, data) {
 
         // Status message
         console.log('Chat written to file');
-
-        // Close readline interface
-        rl.close();
 
         // Close the process
         process.exit();
