@@ -155,13 +155,13 @@ fs.readFile('./files/input.txt', 'utf8', function(err, data) {
     console.log(emoji_list);
 
     // Write emoji list to file
-    fs.writeFile('./files/emoji_list.txt', emoji_list.join('\n'), function(err) {
+    fs.writeFile('./files/emoji_list.txt', JSON.stringify(emoji_list), function(err) {
 
         // If error
         if (err) console.log(err);
 
         // Status message
-        console.log('Emoji list written to file');
+        console.log('Emoji list written');
 
     });
 
