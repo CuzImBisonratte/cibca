@@ -113,6 +113,9 @@ fs.readFile('./files/input.txt', 'utf8', function(err, data) {
         // If line is not skipped
         if (!skip_line) {
 
+            // Reset current line emoji list
+            current_line_emojis = null;
+
             // Print status message
             console.log("Checking message " + (i + 1) + " of " + chat_lines);
 
@@ -135,21 +138,18 @@ fs.readFile('./files/input.txt', 'utf8', function(err, data) {
                     emoji_list[name_split] = [];
                 }
 
+                // Get the current line emojis
+                current_line_emojis = line.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g);
 
-                    // If emoji is not in the list
-                    if (!found) {
+                // Loop through emojis
+                for (var j = 0; j < current_line_emojis.length; j++) {
 
-                        // Add emoji to list
-                        emoji_list.push([emoji[j], 1]);
-                    }
+                    // Add emoji to emoji list
+                    emoji_list[name_split].push(current_line_emojis[j]);
                 }
             }
         }
     }
-    // Sort emoji list
-    emoji_list.sort(function(a, b) {
-        return b[1] - a[1];
-    });
 
     // Print emoji list
     console.log(emoji_list);
