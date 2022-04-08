@@ -27,7 +27,9 @@ var removes = [
 ];
 var skip_line = false;
 var regex_line_begin = /\[\d{2}\.\d{2}\.\d{2}, \d{2}:\d{2}:\d{2}\]/;
-var emoji_list = [];
+var emoji_list = {};
+var name_split = "";
+var current_line_emojis;
 
 // 
 // Functions
@@ -111,59 +113,55 @@ fs.readFile('./files/input.txt', 'utf8', function(err, data) {
         // If line is not skipped
         if (!skip_line) {
 
+            // Reset current line emoji list
+            current_line_emojis = null;
+
             // Print status message
             console.log("Checking message " + (i + 1) + " of " + chat_lines);
 
             // Check if message contains any emoji
             if (line.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g)) {
 
-                // Get the emoji
-                var emoji = line.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g);
+                // Remove the timestamp from the line
+                line = line.replace(regex_line_begin, '');
 
-                // Loop through emoji
-                for (var j = 0; j < emoji.length; j++) {
+                // Split the line at the first :
+                name_split = line.split(': ')[0];
 
-                    // Check if emoji is in the list
-                    var found = false;
-                    for (var k = 0; k < emoji_list.length; k++) {
+                // Split the line at the first " "
+                name_split = name_split.split(' ')[1];
 
-                        // If emoji is in the list
-                        if (emoji_list[k][0] == emoji[j]) {
+                // Check if name is not in the emoji list
+                if (!emoji_list.hasOwnProperty(name_split)) {
 
-                            // Increase the count
-                            emoji_list[k][1]++;
+                    // Add name to emoji list
+                    emoji_list[name_split] = [];
+                }
 
-                            // Set found to true
-                            found = true;
-                        }
-                    }
+                // Get the current line emojis
+                current_line_emojis = line.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g);
 
-                    // If emoji is not in the list
-                    if (!found) {
+                // Loop through emojis
+                for (var j = 0; j < current_line_emojis.length; j++) {
 
-                        // Add emoji to list
-                        emoji_list.push([emoji[j], 1]);
-                    }
+                    // Add emoji to emoji list
+                    emoji_list[name_split].push(current_line_emojis[j]);
                 }
             }
         }
     }
-    // Sort emoji list
-    emoji_list.sort(function(a, b) {
-        return b[1] - a[1];
-    });
 
     // Print emoji list
     console.log(emoji_list);
 
     // Write emoji list to file
-    fs.writeFile('./files/emoji_list.txt', emoji_list.join('\n'), function(err) {
+    fs.writeFile('./files/emoji_list.txt', JSON.stringify(emoji_list), function(err) {
 
         // If error
         if (err) console.log(err);
 
         // Status message
-        console.log('Emoji list written to file');
+        console.log('Emoji list written');
 
     });
 
