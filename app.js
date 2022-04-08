@@ -23,7 +23,8 @@ var removes = [
     "Diese Nachricht wurde gelöscht.",
     "Dokument weggelassen",
     "GIF weggelassen",
-    "selbstlöschende Nachrichten aktiviert"
+    "selbstlöschende Nachrichten aktiviert",
+    "hat die Telefonnummer gewechselt"
 ];
 var skip_line = false;
 var regex_line_begin = /\[\d{2}\.\d{2}\.\d{2}, \d{2}:\d{2}:\d{2}\]/;
