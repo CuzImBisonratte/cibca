@@ -15,8 +15,6 @@ rl.question("Was möchtest du machen?\n1 - Emojinutzung pro Person analysieren\n
     // Switch the answer
     switch (answer) {
         case "1":
-
-            // run "node app.js --input=./files/input.txt" as a child process
             exec('node app.js --input ./files/input.txt', function(error, stdout, stderr) {
                 if (error || stderr) {
                     console.log(error);
