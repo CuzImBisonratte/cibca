@@ -31,6 +31,8 @@ var regex_line_begin = /\[\d{2}\.\d{2}\.\d{2}, \d{2}:\d{2}:\d{2}\]/;
 var emoji_list = {};
 var name_split = "";
 var current_line_emojis;
+var input_arg_index = 0;
+var input_file = "";
 
 // 
 // Functions
@@ -41,6 +43,23 @@ var current_line_emojis;
 // Main
 //
 
+
+// Check if input argument is given
+if (process.argv.indexOf('--input') > -1) {
+
+    // Get the number of the input argument
+    input_arg_index = process.argv.indexOf('--input');
+
+    // Set the input file path
+    input_file = process.argv[input_arg_index + 1];
+
+} else {
+
+    // Set the default input file path
+    input_file = "./files/input.txt";
+
+}
+
 // Create readline interface
 rl = readline.createInterface({
     input: process.stdin,
@@ -48,7 +67,7 @@ rl = readline.createInterface({
 });
 
 // Read file
-fs.readFile('./files/input.txt', 'utf8', function(err, data) {
+fs.readFile(input_file, 'utf8', function(err, data) {
 
     console.log(data);
 
