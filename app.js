@@ -119,26 +119,22 @@ fs.readFile('./files/input.txt', 'utf8', function(err, data) {
             // Check if message contains any emoji
             if (line.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g)) {
 
-                // Get the emoji
-                var emoji = line.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g);
+                // Remove the timestamp from the line
+                line = line.replace(regex_line_begin, '');
 
-                // Loop through emoji
-                for (var j = 0; j < emoji.length; j++) {
+                // Split the line at the first :
+                name_split = line.split(': ')[0];
 
-                    // Check if emoji is in the list
-                    var found = false;
-                    for (var k = 0; k < emoji_list.length; k++) {
+                // Split the line at the first " "
+                name_split = name_split.split(' ')[1];
 
-                        // If emoji is in the list
-                        if (emoji_list[k][0] == emoji[j]) {
+                // Check if name is not in the emoji list
+                if (!emoji_list.hasOwnProperty(name_split)) {
 
-                            // Increase the count
-                            emoji_list[k][1]++;
+                    // Add name to emoji list
+                    emoji_list[name_split] = [];
+                }
 
-                            // Set found to true
-                            found = true;
-                        }
-                    }
 
                     // If emoji is not in the list
                     if (!found) {
