@@ -27,7 +27,9 @@ var removes = [
 ];
 var skip_line = false;
 var regex_line_begin = /\[\d{2}\.\d{2}\.\d{2}, \d{2}:\d{2}:\d{2}\]/;
-var emoji_list = [];
+var emoji_list = {};
+var name_split = "";
+var current_line_emojis;
 
 // 
 // Functions
