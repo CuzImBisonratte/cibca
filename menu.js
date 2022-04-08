@@ -15,13 +15,11 @@ rl.question("Was möchtest du machen?\n1 - Emojinutzung pro Person analysieren\n
     // Switch the answer
     switch (answer) {
         case "1":
-            exec('node app.js --input ./files/input.txt', function(error, stdout, stderr) {
-                if (error || stderr) {
-                    console.log(error);
-                    console.log(stderr);
-                }
-                console.log(stdout);
-            });
+            var appjs_childprocess = exec('node app.js --input ./files/input.txt');
+            appjs_childprocess.stdout.pipe(process.stdout)
+            appjs_childprocess.on('exit', function() {
+                process.exit()
+            })
             break;
         case "2":
             console.log("Hilfe");
