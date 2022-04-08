@@ -22,7 +22,8 @@ var removes = [
     "Sticker weggelassen",
     "Diese Nachricht wurde gelöscht.",
     "Dokument weggelassen",
-    "GIF weggelassen"
+    "GIF weggelassen",
+    "selbstlöschende Nachrichten aktiviert"
 ];
 var skip_line = false;
 var regex_line_begin = /\[\d{2}\.\d{2}\.\d{2}, \d{2}:\d{2}:\d{2}\]/;
@@ -44,7 +45,9 @@ rl = readline.createInterface({
 });
 
 // Read file
-fs.readFile('./input/chat.txt', 'utf8', function(err, data) {
+fs.readFile('./files/input.txt', 'utf8', function(err, data) {
+
+    console.log(data);
 
     // If error
     if (err) console.log(err);
@@ -154,7 +157,7 @@ fs.readFile('./input/chat.txt', 'utf8', function(err, data) {
     console.log(emoji_list);
 
     // Write emoji list to file
-    fs.writeFile('./input/emoji.txt', emoji_list.join('\n'), function(err) {
+    fs.writeFile('./files/emoji_list.txt', emoji_list.join('\n'), function(err) {
 
         // If error
         if (err) console.log(err);
@@ -162,10 +165,23 @@ fs.readFile('./input/chat.txt', 'utf8', function(err, data) {
         // Status message
         console.log('Emoji list written to file');
 
+    });
+
+
+    // Write chat to file
+    fs.writeFile('./files/output.txt', chat.join('\n'), function(err) {
+
+        // If error
+        if (err) console.log(err);
+
+        // Status message
+        console.log('Chat written to file');
+
         // Close readline interface
         rl.close();
 
         // Close the process
         process.exit();
+
     });
 });
