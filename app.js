@@ -2,6 +2,7 @@
 // Get modules
 // 
 fs = require('fs');
+var exec = require('child_process').exec;
 
 // 
 // Variables
@@ -175,6 +176,15 @@ fs.readFile(input_file, 'utf8', function(err, data) {
 
         // Status message
         console.log('Emoji list written');
+
+        // Start output script
+        var appjs_childprocess = exec('node output.js');
+        appjs_childprocess.stdout.pipe(process.stdout)
+        appjs_childprocess.on('exit', function() {
+            setTimeout(function() {
+                process.exit();
+            }, 1000);
+        })
 
     });
 
