@@ -4,7 +4,8 @@ var fs = require('fs');
 // 
 // Variables
 // 
-
+var emoji_list = {}
+var numbered_emoji_list = {}
 
 // 
 // Main
