@@ -1,7 +1,7 @@
 // 
 // Get modules
 // 
-fs = require('fs');
+var fs = require('fs');
 
 // 
 // Variables
