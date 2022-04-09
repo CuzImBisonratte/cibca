@@ -1,7 +1,8 @@
 // 
 // Get modules
 // 
-var fs = require('fs');
+fs = require('fs');
+var exec = require('child_process').exec;
 
 // 
 // Variables
@@ -168,13 +169,22 @@ fs.readFile(input_file, 'utf8', function(err, data) {
     console.log(emoji_list);
 
     // Write emoji list to file
-    fs.writeFile('./files/emoji_list.txt', JSON.stringify(emoji_list), function(err) {
+    fs.writeFile('./files/tmp/app-emoji_list', JSON.stringify(emoji_list), function(err) {
 
         // If error
         if (err) console.log(err);
 
         // Status message
         console.log('Emoji list written');
+
+        // Start output script
+        var appjs_childprocess = exec('node output.js');
+        appjs_childprocess.stdout.pipe(process.stdout)
+        appjs_childprocess.on('exit', function() {
+            setTimeout(function() {
+                process.exit();
+            }, 1000);
+        })
 
     });
 
