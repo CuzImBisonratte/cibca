@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CIBCA - Export</title>
+    <style>
+        * {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>CIBCA - Emojilist - Export</h1>
+    <ul>
+        <!--THISISREPLACEDBYSCRIPT-->
+    </ul>
+    <p>
+        <h1>JSON OUPUT</h1>
+        <!--THISISREPLACEDBYSCRIPT1-->
+    </p>
+</body>
+
+</html>
