@@ -1,7 +1,23 @@
 // Get the modules
 var readline = require('readline');
 var exec = require('child_process').exec;
+var fs = require('fs');
 
+// Startup
+console.log("Loading CIBCA");
+console.log("Checking folder structure");
+// Check if folder "files" exists
+if (!fs.existsSync('files')) {
+    console.log("Creating folder 'files'");
+    fs.mkdirSync('files');
+}
+// Check if folder "tmp" exists in "files"
+if (!fs.existsSync('files/tmp')) {
+    console.log("Creating folder 'files/tmp'");
+    fs.mkdirSync('files/tmp');
+}
+console.log("CIBCA loaded!");
+console.clear();
 
 // Create the interface
 var rl = readline.createInterface({
@@ -22,7 +38,7 @@ rl.question("Was möchtest du machen?\n1 - Emojinutzung pro Person analysieren\n
                 setTimeout(function() {
                     process.exit();
                 }, 1000);
-            })
+            });
             break;
         case "2":
             console.log("Hilfe");
