@@ -57,7 +57,7 @@ fs.readFile('./files/tmp/app-emoji_list', 'utf8', function(err, data) {
 
 
     // Read the file "output_sample.html"
-    fs.readFile('./output_sample', 'utf8', function(err, data) {
+    fs.readFile('./output_blueprint', 'utf8', function(err, data) {
 
         // If error
         if (err) console.log(err);
