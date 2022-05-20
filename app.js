@@ -27,7 +27,8 @@ var removes = [
     "hat die Telefonnummer gewechselt"
 ];
 var skip_line = false;
-var regex_line_begin = /\[\d{2}\.\d{2}\.\d{2}, \d{2}:\d{2}:\d{2}\]/;
+var android_line_begin = /\d{2}\.\d{2}\.\d{2}, \d{2}:\d{2}/;
+var ios_line_begin = /\[\d{2}\.\d{2}\.\d{2}, \d{2}:\d{2}:\d{2}\]/;
 var emoji_list = {};
 var name_split = "";
 var current_line_emojis;
@@ -63,7 +64,7 @@ if (process.argv.indexOf('--input') > -1) {
 // Read file
 fs.readFile(input_file, 'utf8', function(err, data) {
 
-    console.log(data);
+    // console.log(data);
 
     // If error
     if (err) console.log(err);
@@ -84,23 +85,26 @@ fs.readFile(input_file, 'utf8', function(err, data) {
     for (var i = 0; i < chat_lines; i++) {
 
         // Check if line matches regex
-        if (!regex_line_begin.test(chat[i])) {
+        if (!android_line_begin.test(chat[i])) {
 
-            // Add the line to the previous line
-            chat[i - 1] += ' ' + chat[i];
+            // Check if line matches regex
+            if (!ios_line_begin.test(chat[i])) {
 
-            // Remove the line
-            chat.splice(i, 1);
+                // Add the line to the previous line
+                chat[i - 1] += ' ' + chat[i];
 
-            // Decrease the number of lines
-            chat_lines--;
+                // Remove the line
+                chat.splice(i, 1);
 
-            // Status message
-            console.log('Line ' + i + ' removed');
+                // Decrease the number of lines
+                chat_lines--;
 
-            // Decrease the index
-            i--;
+                // Status message
+                console.log('Line ' + i + ' removed');
 
+                // Decrease the index
+                i--;
+            }
         }
     }
 
@@ -137,13 +141,16 @@ fs.readFile(input_file, 'utf8', function(err, data) {
             if (line.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g)) {
 
                 // Remove the timestamp from the line
-                line = line.replace(regex_line_begin, '');
+                line = line.replace(ios_line_begin, '');
+                line = line.replace(android_line_begin, '');
 
                 // Split the line at the first :
                 name_split = line.split(': ')[0];
 
+                console.log(name_split);
+
                 // Split the line at the first " "
-                name_split = name_split.split(' ')[1];
+                name_split = name_split.split(':')[0];
 
                 // Check if name is not in the emoji list
                 if (!emoji_list.hasOwnProperty(name_split)) {
@@ -176,16 +183,6 @@ fs.readFile(input_file, 'utf8', function(err, data) {
 
         // Status message
         console.log('Emoji list written');
-
-        // Start output script
-        var appjs_childprocess = exec('node output.js');
-        appjs_childprocess.stdout.pipe(process.stdout)
-        appjs_childprocess.on('exit', function() {
-            setTimeout(function() {
-                process.exit();
-            }, 1000);
-        })
-
     });
 
 

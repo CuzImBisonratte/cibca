@@ -34,12 +34,16 @@ rl.question("Was möchtest du machen?\n1 - Emojinutzung pro Person analysieren\n
             var appjs_childprocess = exec('node app.js --input ./files/input.txt');
             appjs_childprocess.stdout.pipe(process.stdout)
             appjs_childprocess.on('exit', function() {
-                setTimeout(function() {
-                    exec('start "" "./output.html"');
+                var output_childprocess = exec('node ./output.js');
+                output_childprocess.stdout.pipe(process.stdout)
+                output_childprocess.on('exit', function() {
                     setTimeout(function() {
-                        process.exit();
-                    }, 1000);
-                }, 500);
+                        exec('start "" "./output.html"');
+                        setTimeout(function() {
+                            process.exit();
+                        }, 1000);
+                    }, 500);
+                })
             });
             break;
         case "2":
