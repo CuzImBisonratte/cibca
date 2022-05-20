@@ -64,7 +64,7 @@ if (process.argv.indexOf('--input') > -1) {
 // Read file
 fs.readFile(input_file, 'utf8', function(err, data) {
 
-    console.log(data);
+    // console.log(data);
 
     // If error
     if (err) console.log(err);
