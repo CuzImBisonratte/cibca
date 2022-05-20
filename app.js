@@ -27,7 +27,8 @@ var removes = [
     "hat die Telefonnummer gewechselt"
 ];
 var skip_line = false;
-var regex_line_begin = /\[\d{2}\.\d{2}\.\d{2}, \d{2}:\d{2}:\d{2}\]/;
+var android_line_begin = /\d{2}\.\d{2}\.\d{2}, \d{2}:\d{2}/;
+var ios_line_begin = /\d{2}\.\d{2}\.\d{2}, \d{2}:\d{2}/;
 var emoji_list = {};
 var name_split = "";
 var current_line_emojis;
@@ -84,23 +85,26 @@ fs.readFile(input_file, 'utf8', function(err, data) {
     for (var i = 0; i < chat_lines; i++) {
 
         // Check if line matches regex
-        if (!regex_line_begin.test(chat[i])) {
+        if (!android_line_begin.test(chat[i])) {
 
-            // Add the line to the previous line
-            chat[i - 1] += ' ' + chat[i];
+            // Check if line matches regex
+            if (!ios_line_begin.test(chat[i])) {
 
-            // Remove the line
-            chat.splice(i, 1);
+                // Add the line to the previous line
+                chat[i - 1] += ' ' + chat[i];
 
-            // Decrease the number of lines
-            chat_lines--;
+                // Remove the line
+                chat.splice(i, 1);
 
-            // Status message
-            console.log('Line ' + i + ' removed');
+                // Decrease the number of lines
+                chat_lines--;
 
-            // Decrease the index
-            i--;
+                // Status message
+                console.log('Line ' + i + ' removed');
 
+                // Decrease the index
+                i--;
+            }
         }
     }
 
