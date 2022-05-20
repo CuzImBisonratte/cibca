@@ -28,7 +28,7 @@ var removes = [
 ];
 var skip_line = false;
 var android_line_begin = /\d{2}\.\d{2}\.\d{2}, \d{2}:\d{2}/;
-var ios_line_begin = /\d{2}\.\d{2}\.\d{2}, \d{2}:\d{2}/;
+var ios_line_begin = /\[\d{2}\.\d{2}\.\d{2}, \d{2}:\d{2}:\d{2}\]/;
 var emoji_list = {};
 var name_split = "";
 var current_line_emojis;
