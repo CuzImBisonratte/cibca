@@ -141,13 +141,16 @@ fs.readFile(input_file, 'utf8', function(err, data) {
             if (line.match(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g)) {
 
                 // Remove the timestamp from the line
-                line = line.replace(regex_line_begin, '');
+                line = line.replace(ios_line_begin, '');
+                line = line.replace(android_line_begin, '');
 
                 // Split the line at the first :
                 name_split = line.split(': ')[0];
 
+                console.log(name_split);
+
                 // Split the line at the first " "
-                name_split = name_split.split(' ')[1];
+                name_split = name_split.split(':')[0];
 
                 // Check if name is not in the emoji list
                 if (!emoji_list.hasOwnProperty(name_split)) {
